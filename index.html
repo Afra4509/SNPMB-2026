@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Countdown SNBP & SNBT 2026</title>
+  <meta name="description" content="Countdown timer menuju pengumuman SNBP dan SNBT 2026. Pantau waktu tersisa secara real-time!" />
+  <meta name="keywords" content="SNBP 2026, SNBT 2026, countdown pengumuman, SNPMB 2026" />
+  <meta name="author" content="Countdown SNBP SNBT" />
+  <meta property="og:title" content="Countdown Pengumuman SNBP & SNBT 2026" />
+  <meta property="og:description" content="Hitung mundur menuju pengumuman SNBP dan SNBT 2026." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#18181b" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>" />
+
+  <!-- Google Fonts - Inter only for clean look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS + DaisyUI -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* ─── Loading Screen ─── */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #09090b;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    [data-theme="light"] #loader {
+      background: #fafafa;
+    }
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .loader-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #a1a1aa;
+      animation: loaderPulse 1.4s ease-in-out infinite;
+    }
+    .loader-dot:nth-child(2) { animation-delay: 0.2s; }
+    .loader-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes loaderPulse {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+
+    /* ─── Subtle entrance animation ─── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeIn 0.5s ease forwards;
+    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ─── Number flip animation ─── */
+    .num-flip {
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+    .num-flip.tick {
+      animation: flip 0.3s ease;
+    }
+    @keyframes flip {
+      0% { transform: translateY(-4px); opacity: 0.5; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* ─── Card hover ─── */
+    .card-hover {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-2px);
+    }
+
+    /* ─── Custom scrollbar ─── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
+    [data-theme="light"] ::-webkit-scrollbar-thumb { background: #d4d4d8; }
+  </style>
+</head>
+
+<body class="min-h-screen font-sans antialiased bg-base-100 text-base-content">
+
+  <!-- Loading Screen -->
+  <div id="loader">
+    <div class="flex items-center gap-2">
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 border-b border-base-300/50 bg-base-100/80 backdrop-blur-lg">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+        <a href="#" class="font-semibold text-sm sm:text-base tracking-tight">
+          SNPMB 2026
+        </a>
+        
+        <!-- Theme Toggle -->
+        <button id="themeToggle" class="btn btn-ghost btn-sm btn-square" aria-label="Toggle theme">
+          <svg id="iconSun" class="w-4 h-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <svg id="iconMoon" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col justify-center px-4 sm:px-6 py-12 sm:py-16">
+      <div class="max-w-4xl mx-auto w-full">
+
+        <!-- Hero Text -->
+        <div class="text-center mb-10 sm:mb-14 fade-in">
+          <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-3">
+            Countdown Pengumuman
+          </h1>
+          <p class="text-base-content/60 text-sm sm:text-base max-w-md mx-auto">
+            Pantau waktu menuju pengumuman SNBP dan SNBT 2026
+          </p>
+        </div>
+
+        <!-- Timezone Badge -->
+        <div class="flex justify-center mb-8 sm:mb-10 fade-in delay-1">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-base-200/60 text-xs text-base-content/60">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span id="timezoneInfo">Detecting timezone...</span>
+          </div>
+        </div>
+
+        <!-- Countdown Cards -->
+        <div class="grid md:grid-cols-2 gap-4 sm:gap-6 fade-in delay-2">
+
+          <!-- SNBP Card -->
+          <div class="card-hover bg-base-200/40 border border-base-300/50 rounded-2xl p-6 sm:p-8">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span class="text-xs font-medium text-base-content/50 uppercase tracking-wider">SNBP</span>
+            </div>
+            <h2 class="font-semibold text-lg sm:text-xl mb-1">Seleksi Berdasarkan Prestasi</h2>
+            <p class="text-xs text-base-content/40 mb-6">31 Maret 2026, 15:00 WIB</p>
+
+            <!-- Countdown -->
+            <div id="snbp-countdown" class="grid grid-cols-4 gap-2 sm:gap-3">
+              <div class="text-center">
+                <div class="bg-base-100 rounded-xl py-3 sm:py-4 mb-1.5 border border-base-300/30">
+                  <span id="snbp-days" class="num-flip text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums">00</span>
+                </div>
+                <span class="text-[10px] sm:text-xs text-base-content/40 font-medium">Hari</span>
+              </div>
+              <div class="text-center">
+                <div class="bg-base-100 rounded-xl py-3 sm:py-4 mb-1.5 border border-base-300/30">
+                  <span id="snbp-hours" class="num-flip text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums">00</span>
+                </div>
+                <span class="text-[10px] sm:text-xs text-base-content/40 font-medium">Jam</span>
+              </div>
+              <div class="text-center">
+                <div class="bg-base-100 rounded-xl py-3 sm:py-4 mb-1.5 border border-base-300/30">
+                  <span id="snbp-minutes" class="num-flip text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums">00</span>
+                </div>
+                <span class="text-[10px] sm:text-xs text-base-content/40 font-medium">Menit</span>
+              </div>
+              <div class="text-center">
+                <div class="bg-base-100 rounded-xl py-3 sm:py-4 mb-1.5 border border-base-300/30">
+                  <span id="snbp-seconds" class="num-flip text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums">00</span>
+                </div>
+                <span class="text-[10px] sm:text-xs text-base-content/40 font-medium">Detik</span>
+              </div>
+            </div>
+
+            <!-- Finished State -->
+            <div id="snbp-finished" class="hidden text-center py-8">
+              <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-sm font-medium">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                Pengumuman Sudah Dibuka
+              </div>
+            </div>
+
+            <!-- Progress -->
+            <div class="mt-6">
+              <div class="flex justify-between text-[10px] sm:text-xs text-base-content/40 mb-1.5">
+                <span>Progress</span>
+                <span id="snbp-percent">0%</span>
+              </div>
+              <div class="h-1 bg-base-300/50 rounded-full overflow-hidden">
+                <div id="snbp-progress" class="h-full bg-emerald-500/70 rounded-full transition-all duration-300" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SNBT Card -->
+          <div class="card-hover bg-base-200/40 border border-base-300/50 rounded-2xl p-6 sm:p-8">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+              <span class="text-xs font-medium text-base-content/50 uppercase tracking-wider">SNBT</span>
+            </div>
+            <h2 class="font-semibold text-lg sm:text-xl mb-1">Seleksi Berdasarkan Tes</h2>
+            <p class="text-xs text-base-content/40 mb-6">25 Mei 2026, 15:00 WIB</p>
+
+            <!-- Countdown -->
+            <div id="snbt-countdown" class="grid grid-cols-4 gap-2 sm:gap-3">
+              <div class="text-center">
+                <div class="bg-base-100 rounded-xl py-3 sm:py-4 mb-1.5 border border-base-300/30">
+                  <span id="snbt-days" class="num-flip text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums">00</span>
+                </div>
+                <span class="text-[10px] sm:text-xs text-base-content/40 font-medium">Hari</span>
+              </div>
+              <div class="text-center">
+                <div class="bg-base-100 rounded-xl py-3 sm:py-4 mb-1.5 border border-base-300/30">
+                  <span id="snbt-hours" class="num-flip text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums">00</span>
+                </div>
+                <span class="text-[10px] sm:text-xs text-base-content/40 font-medium">Jam</span>
+              </div>
+              <div class="text-center">
+                <div class="bg-base-100 rounded-xl py-3 sm:py-4 mb-1.5 border border-base-300/30">
+                  <span id="snbt-minutes" class="num-flip text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums">00</span>
+                </div>
+                <span class="text-[10px] sm:text-xs text-base-content/40 font-medium">Menit</span>
+              </div>
+              <div class="text-center">
+                <div class="bg-base-100 rounded-xl py-3 sm:py-4 mb-1.5 border border-base-300/30">
+                  <span id="snbt-seconds" class="num-flip text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums">00</span>
+                </div>
+                <span class="text-[10px] sm:text-xs text-base-content/40 font-medium">Detik</span>
+              </div>
+            </div>
+
+            <!-- Finished State -->
+            <div id="snbt-finished" class="hidden text-center py-8">
+              <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-sm font-medium">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                Pengumuman Sudah Dibuka
+              </div>
+            </div>
+
+            <!-- Progress -->
+            <div class="mt-6">
+              <div class="flex justify-between text-[10px] sm:text-xs text-base-content/40 mb-1.5">
+                <span>Progress</span>
+                <span id="snbt-percent">0%</span>
+              </div>
+              <div class="h-1 bg-base-300/50 rounded-full overflow-hidden">
+                <div id="snbt-progress" class="h-full bg-blue-500/70 rounded-full transition-all duration-300" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Motivational Text -->
+        <div class="text-center mt-10 sm:mt-12 fade-in delay-3">
+          <p class="text-base-content/40 text-sm italic">
+            "Semoga hasil terbaik menyertaimu"
+          </p>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center">
+      <p class="text-xs text-base-content/30">
+        Waktu berdasarkan jadwal resmi SNPMB
+      </p>
+    </footer>
+
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    (() => {
+      'use strict';
+
+      // ─── Target Dates (WIB = UTC+7) ───
+      const TARGETS = {
+        snbp: {
+          date: new Date(Date.UTC(2026, 2, 31, 8, 0, 0)), // 31 March 2026 15:00 WIB
+          startDate: new Date(Date.UTC(2026, 0, 1, 0, 0, 0)),
+        },
+        snbt: {
+          date: new Date(Date.UTC(2026, 4, 25, 8, 0, 0)), // 25 May 2026 15:00 WIB
+          startDate: new Date(Date.UTC(2026, 0, 1, 0, 0, 0)),
+        },
+      };
+
+      // ─── DOM Elements ───
+      const getEls = (id) => ({
+        days: document.getElementById(`${id}-days`),
+        hours: document.getElementById(`${id}-hours`),
+        minutes: document.getElementById(`${id}-minutes`),
+        seconds: document.getElementById(`${id}-seconds`),
+        countdown: document.getElementById(`${id}-countdown`),
+        finished: document.getElementById(`${id}-finished`),
+        progress: document.getElementById(`${id}-progress`),
+        percent: document.getElementById(`${id}-percent`),
+      });
+
+      const els = { snbp: getEls('snbp'), snbt: getEls('snbt') };
+      const prev = { snbp: {}, snbt: {} };
+
+      // ─── Countdown Calculation ───
+      function calcTime(target) {
+        const diff = target - new Date();
+        if (diff <= 0) return { d: 0, h: 0, m: 0, s: 0, done: true, diff: 0 };
+        
+        return {
+          d: Math.floor(diff / 86400000),
+          h: Math.floor((diff / 3600000) % 24),
+          m: Math.floor((diff / 60000) % 60),
+          s: Math.floor((diff / 1000) % 60),
+          done: false,
+          diff
+        };
+      }
+
+      function pad(n) { return String(n).padStart(2, '0'); }
+
+      function animate(el) {
+        el.classList.remove('tick');
+        void el.offsetWidth;
+        el.classList.add('tick');
+      }
+
+      // ─── Update Display ───
+      function update(key) {
+        const t = TARGETS[key];
+        const e = els[key];
+        const time = calcTime(t.date);
+
+        if (time.done) {
+          e.countdown.classList.add('hidden');
+          e.finished.classList.remove('hidden');
+          e.progress.style.width = '100%';
+          e.percent.textContent = '100%';
+          return true;
+        }
+
+        const vals = { days: time.d, hours: time.h, minutes: time.m, seconds: time.s };
+        Object.entries(vals).forEach(([k, v]) => {
+          const str = pad(v);
+          if (prev[key][k] !== str) {
+            e[k].textContent = str;
+            animate(e[k]);
+            prev[key][k] = str;
+          }
+        });
+
+        // Progress
+        const total = t.date - t.startDate;
+        const elapsed = total - time.diff;
+        const pct = Math.min(100, Math.max(0, (elapsed / total) * 100));
+        e.progress.style.width = `${pct}%`;
+        e.percent.textContent = `${pct.toFixed(1)}%`;
+
+        return false;
+      }
+
+      // ─── Timezone ───
+      function showTimezone() {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const off = new Date().getTimezoneOffset();
+        const sign = off <= 0 ? '+' : '-';
+        const h = String(Math.floor(Math.abs(off) / 60)).padStart(2, '0');
+        const m = String(Math.abs(off) % 60).padStart(2, '0');
+        document.getElementById('timezoneInfo').textContent = `${tz} (UTC${sign}${h}:${m})`;
+      }
+
+      // ─── Theme Toggle ───
+      function initTheme() {
+        const btn = document.getElementById('themeToggle');
+        const sun = document.getElementById('iconSun');
+        const moon = document.getElementById('iconMoon');
+        const saved = localStorage.getItem('theme');
+        
+        const setTheme = (theme) => {
+          document.documentElement.setAttribute('data-theme', theme);
+          localStorage.setItem('theme', theme);
+          sun.classList.toggle('hidden', theme === 'dark');
+          moon.classList.toggle('hidden', theme === 'light');
+        };
+
+        setTheme(saved || 'dark');
+
+        btn.addEventListener('click', () => {
+          const current = document.documentElement.getAttribute('data-theme');
+          setTheme(current === 'dark' ? 'light' : 'dark');
+        });
+      }
+
+      // ─── Loader ───
+      function hideLoader() {
+        setTimeout(() => {
+          document.getElementById('loader').classList.add('hidden');
+        }, 600);
+      }
+
+      // ─── Main Loop ───
+      let snbpDone = false, snbtDone = false;
+      
+      function tick() {
+        if (!snbpDone) snbpDone = update('snbp');
+        if (!snbtDone) snbtDone = update('snbt');
+        if (snbpDone && snbtDone) clearInterval(interval);
+      }
+
+      // ─── Init ───
+      initTheme();
+      showTimezone();
+      tick();
+      const interval = setInterval(tick, 1000);
+      hideLoader();
+    })();
+  </script>
+</body>
+</html>
