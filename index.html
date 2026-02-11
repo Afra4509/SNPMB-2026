@@ -3,22 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Countdown SNBP & SNBT 2026</title>
-  <meta name="description" content="Countdown timer menuju pengumuman SNBP dan SNBT 2026. Pantau waktu tersisa secara real-time!" />
-  <meta name="keywords" content="SNBP 2026, SNBT 2026, countdown pengumuman, SNPMB 2026" />
-  <meta name="author" content="Countdown SNBP SNBT" />
-  <meta property="og:title" content="Countdown Pengumuman SNBP & SNBT 2026" />
-  <meta property="og:description" content="Hitung mundur menuju pengumuman SNBP dan SNBT 2026." />
+  <title>Jadwal & Countdown SNPMB 2026</title>
+  <meta name="description" content="Countdown timer dan jadwal lengkap SNBP & SNBT 2026. Pantau semua tanggal penting secara real-time!" />
+  <meta name="keywords" content="SNBP 2026, SNBT 2026, UTBK 2026, jadwal SNPMB, countdown pengumuman" />
+  <meta name="author" content="SNPMB 2026" />
+  <meta property="og:title" content="Jadwal & Countdown SNPMB 2026" />
+  <meta property="og:description" content="Pantau jadwal lengkap dan countdown SNBP & SNBT 2026." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#18181b" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>" />
 
-  <!-- Google Fonts - Inter only for clean look -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind CSS + DaisyUI -->
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -34,7 +32,6 @@
   </script>
 
   <style>
-    /* ─── Loading Screen ─── */
     #loader {
       position: fixed;
       inset: 0;
@@ -45,13 +42,8 @@
       background: #09090b;
       transition: opacity 0.4s ease, visibility 0.4s ease;
     }
-    [data-theme="light"] #loader {
-      background: #fafafa;
-    }
-    #loader.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
+    [data-theme="light"] #loader { background: #fafafa; }
+    #loader.hidden { opacity: 0; visibility: hidden; }
     .loader-dot {
       width: 8px;
       height: 8px;
@@ -61,13 +53,11 @@
     }
     .loader-dot:nth-child(2) { animation-delay: 0.2s; }
     .loader-dot:nth-child(3) { animation-delay: 0.4s; }
-
     @keyframes loaderPulse {
       0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
       40% { transform: scale(1); opacity: 1; }
     }
 
-    /* ─── Subtle entrance animation ─── */
     .fade-in {
       opacity: 0;
       transform: translateY(12px);
@@ -76,15 +66,11 @@
     .delay-1 { animation-delay: 0.1s; }
     .delay-2 { animation-delay: 0.2s; }
     .delay-3 { animation-delay: 0.3s; }
-
+    .delay-4 { animation-delay: 0.4s; }
     @keyframes fadeIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ─── Number flip animation ─── */
     .num-flip {
       display: inline-block;
       transition: transform 0.2s ease;
@@ -97,25 +83,25 @@
       100% { transform: translateY(0); opacity: 1; }
     }
 
-    /* ─── Card hover ─── */
-    .card-hover {
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .card-hover:hover {
-      transform: translateY(-2px);
-    }
-
-    /* ─── Custom scrollbar ─── */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
     [data-theme="light"] ::-webkit-scrollbar-thumb { background: #d4d4d8; }
+
+    .schedule-item {
+      transition: background-color 0.2s ease;
+    }
+    .schedule-item:hover {
+      background-color: rgba(255,255,255,0.03);
+    }
+    [data-theme="light"] .schedule-item:hover {
+      background-color: rgba(0,0,0,0.02);
+    }
   </style>
 </head>
 
 <body class="min-h-screen font-sans antialiased bg-base-100 text-base-content">
 
-  <!-- Loading Screen -->
   <div id="loader">
     <div class="flex items-center gap-2">
       <div class="loader-dot"></div>
@@ -124,17 +110,11 @@
     </div>
   </div>
 
-  <!-- Main Container -->
   <div class="min-h-screen flex flex-col">
 
-    <!-- Header -->
     <header class="sticky top-0 z-50 border-b border-base-300/50 bg-base-100/80 backdrop-blur-lg">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-        <a href="#" class="font-semibold text-sm sm:text-base tracking-tight">
-          SNPMB 2026
-        </a>
-        
-        <!-- Theme Toggle -->
+        <a href="#" class="font-semibold text-sm sm:text-base tracking-tight">SNPMB 2026</a>
         <button id="themeToggle" class="btn btn-ghost btn-sm btn-square" aria-label="Toggle theme">
           <svg id="iconSun" class="w-4 h-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -146,190 +126,267 @@
       </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col justify-center px-4 sm:px-6 py-12 sm:py-16">
-      <div class="max-w-4xl mx-auto w-full">
+    <main class="flex-1 px-4 sm:px-6 py-8 sm:py-12">
+      <div class="max-w-6xl mx-auto w-full">
 
-        <!-- Hero Text -->
-        <div class="text-center mb-10 sm:mb-14 fade-in">
-          <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-3">
-            Countdown Pengumuman
+        <!-- Hero -->
+        <div class="text-center mb-8 sm:mb-10 fade-in">
+          <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-2">
+            Jadwal SNPMB 2026
           </h1>
-          <p class="text-base-content/60 text-sm sm:text-base max-w-md mx-auto">
-            Pantau waktu menuju pengumuman SNBP dan SNBT 2026
+          <p class="text-base-content/60 text-sm sm:text-base">
+            Countdown dan jadwal lengkap SNBP & UTBK-SNBT
           </p>
         </div>
 
-        <!-- Timezone Badge -->
-        <div class="flex justify-center mb-8 sm:mb-10 fade-in delay-1">
+        <!-- Timezone -->
+        <div class="flex justify-center mb-8 fade-in delay-1">
           <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-base-200/60 text-xs text-base-content/60">
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span id="timezoneInfo">Detecting timezone...</span>
+            <span id="timezoneInfo">Detecting...</span>
           </div>
         </div>
 
-        <!-- Countdown Cards -->
-        <div class="grid md:grid-cols-2 gap-4 sm:gap-6 fade-in delay-2">
+        <!-- Main Countdown Cards -->
+        <div class="grid md:grid-cols-2 gap-4 sm:gap-6 mb-10 fade-in delay-2">
 
-          <!-- SNBP Card -->
-          <div class="card-hover bg-base-200/40 border border-base-300/50 rounded-2xl p-6 sm:p-8">
+          <!-- SNBP Main -->
+          <div class="bg-base-200/40 border border-base-300/50 rounded-2xl p-6">
             <div class="flex items-center gap-2 mb-1">
               <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-              <span class="text-xs font-medium text-base-content/50 uppercase tracking-wider">SNBP</span>
+              <span class="text-xs font-medium text-base-content/50 uppercase tracking-wider">Pengumuman SNBP</span>
             </div>
-            <h2 class="font-semibold text-lg sm:text-xl mb-1">Seleksi Berdasarkan Prestasi</h2>
-            <p class="text-xs text-base-content/40 mb-6">31 Maret 2026, 15:00 WIB</p>
+            <h2 class="font-semibold text-lg mb-1">Hasil Seleksi SNBP</h2>
+            <p class="text-xs text-base-content/40 mb-5">31 Maret 2026</p>
 
-            <!-- Countdown -->
-            <div id="snbp-countdown" class="grid grid-cols-4 gap-2 sm:gap-3">
+            <div id="snbp-countdown" class="grid grid-cols-4 gap-2">
               <div class="text-center">
-                <div class="bg-base-100 rounded-xl py-3 sm:py-4 mb-1.5 border border-base-300/30">
-                  <span id="snbp-days" class="num-flip text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums">00</span>
+                <div class="bg-base-100 rounded-xl py-3 mb-1 border border-base-300/30">
+                  <span id="snbp-days" class="num-flip text-2xl sm:text-3xl font-bold tabular-nums">00</span>
                 </div>
-                <span class="text-[10px] sm:text-xs text-base-content/40 font-medium">Hari</span>
+                <span class="text-[10px] text-base-content/40">Hari</span>
               </div>
               <div class="text-center">
-                <div class="bg-base-100 rounded-xl py-3 sm:py-4 mb-1.5 border border-base-300/30">
-                  <span id="snbp-hours" class="num-flip text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums">00</span>
+                <div class="bg-base-100 rounded-xl py-3 mb-1 border border-base-300/30">
+                  <span id="snbp-hours" class="num-flip text-2xl sm:text-3xl font-bold tabular-nums">00</span>
                 </div>
-                <span class="text-[10px] sm:text-xs text-base-content/40 font-medium">Jam</span>
+                <span class="text-[10px] text-base-content/40">Jam</span>
               </div>
               <div class="text-center">
-                <div class="bg-base-100 rounded-xl py-3 sm:py-4 mb-1.5 border border-base-300/30">
-                  <span id="snbp-minutes" class="num-flip text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums">00</span>
+                <div class="bg-base-100 rounded-xl py-3 mb-1 border border-base-300/30">
+                  <span id="snbp-minutes" class="num-flip text-2xl sm:text-3xl font-bold tabular-nums">00</span>
                 </div>
-                <span class="text-[10px] sm:text-xs text-base-content/40 font-medium">Menit</span>
+                <span class="text-[10px] text-base-content/40">Menit</span>
               </div>
               <div class="text-center">
-                <div class="bg-base-100 rounded-xl py-3 sm:py-4 mb-1.5 border border-base-300/30">
-                  <span id="snbp-seconds" class="num-flip text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums">00</span>
+                <div class="bg-base-100 rounded-xl py-3 mb-1 border border-base-300/30">
+                  <span id="snbp-seconds" class="num-flip text-2xl sm:text-3xl font-bold tabular-nums">00</span>
                 </div>
-                <span class="text-[10px] sm:text-xs text-base-content/40 font-medium">Detik</span>
+                <span class="text-[10px] text-base-content/40">Detik</span>
               </div>
             </div>
 
-            <!-- Finished State -->
-            <div id="snbp-finished" class="hidden text-center py-8">
-              <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-sm font-medium">
+            <div id="snbp-finished" class="hidden text-center py-6">
+              <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 text-emerald-500 text-sm font-medium">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                Pengumuman Sudah Dibuka
-              </div>
-            </div>
-
-            <!-- Progress -->
-            <div class="mt-6">
-              <div class="flex justify-between text-[10px] sm:text-xs text-base-content/40 mb-1.5">
-                <span>Progress</span>
-                <span id="snbp-percent">0%</span>
-              </div>
-              <div class="h-1 bg-base-300/50 rounded-full overflow-hidden">
-                <div id="snbp-progress" class="h-full bg-emerald-500/70 rounded-full transition-all duration-300" style="width: 0%"></div>
+                Sudah Dibuka
               </div>
             </div>
           </div>
 
-          <!-- SNBT Card -->
-          <div class="card-hover bg-base-200/40 border border-base-300/50 rounded-2xl p-6 sm:p-8">
+          <!-- SNBT Main -->
+          <div class="bg-base-200/40 border border-base-300/50 rounded-2xl p-6">
             <div class="flex items-center gap-2 mb-1">
               <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-              <span class="text-xs font-medium text-base-content/50 uppercase tracking-wider">SNBT</span>
+              <span class="text-xs font-medium text-base-content/50 uppercase tracking-wider">Pengumuman SNBT</span>
             </div>
-            <h2 class="font-semibold text-lg sm:text-xl mb-1">Seleksi Berdasarkan Tes</h2>
-            <p class="text-xs text-base-content/40 mb-6">25 Mei 2026, 15:00 WIB</p>
+            <h2 class="font-semibold text-lg mb-1">Hasil Seleksi SNBT</h2>
+            <p class="text-xs text-base-content/40 mb-5">25 Mei 2026</p>
 
-            <!-- Countdown -->
-            <div id="snbt-countdown" class="grid grid-cols-4 gap-2 sm:gap-3">
+            <div id="snbt-countdown" class="grid grid-cols-4 gap-2">
               <div class="text-center">
-                <div class="bg-base-100 rounded-xl py-3 sm:py-4 mb-1.5 border border-base-300/30">
-                  <span id="snbt-days" class="num-flip text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums">00</span>
+                <div class="bg-base-100 rounded-xl py-3 mb-1 border border-base-300/30">
+                  <span id="snbt-days" class="num-flip text-2xl sm:text-3xl font-bold tabular-nums">00</span>
                 </div>
-                <span class="text-[10px] sm:text-xs text-base-content/40 font-medium">Hari</span>
+                <span class="text-[10px] text-base-content/40">Hari</span>
               </div>
               <div class="text-center">
-                <div class="bg-base-100 rounded-xl py-3 sm:py-4 mb-1.5 border border-base-300/30">
-                  <span id="snbt-hours" class="num-flip text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums">00</span>
+                <div class="bg-base-100 rounded-xl py-3 mb-1 border border-base-300/30">
+                  <span id="snbt-hours" class="num-flip text-2xl sm:text-3xl font-bold tabular-nums">00</span>
                 </div>
-                <span class="text-[10px] sm:text-xs text-base-content/40 font-medium">Jam</span>
+                <span class="text-[10px] text-base-content/40">Jam</span>
               </div>
               <div class="text-center">
-                <div class="bg-base-100 rounded-xl py-3 sm:py-4 mb-1.5 border border-base-300/30">
-                  <span id="snbt-minutes" class="num-flip text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums">00</span>
+                <div class="bg-base-100 rounded-xl py-3 mb-1 border border-base-300/30">
+                  <span id="snbt-minutes" class="num-flip text-2xl sm:text-3xl font-bold tabular-nums">00</span>
                 </div>
-                <span class="text-[10px] sm:text-xs text-base-content/40 font-medium">Menit</span>
+                <span class="text-[10px] text-base-content/40">Menit</span>
               </div>
               <div class="text-center">
-                <div class="bg-base-100 rounded-xl py-3 sm:py-4 mb-1.5 border border-base-300/30">
-                  <span id="snbt-seconds" class="num-flip text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums">00</span>
+                <div class="bg-base-100 rounded-xl py-3 mb-1 border border-base-300/30">
+                  <span id="snbt-seconds" class="num-flip text-2xl sm:text-3xl font-bold tabular-nums">00</span>
                 </div>
-                <span class="text-[10px] sm:text-xs text-base-content/40 font-medium">Detik</span>
+                <span class="text-[10px] text-base-content/40">Detik</span>
               </div>
             </div>
 
-            <!-- Finished State -->
-            <div id="snbt-finished" class="hidden text-center py-8">
-              <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-sm font-medium">
+            <div id="snbt-finished" class="hidden text-center py-6">
+              <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 text-blue-500 text-sm font-medium">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                Pengumuman Sudah Dibuka
+                Sudah Dibuka
               </div>
             </div>
+          </div>
+        </div>
 
-            <!-- Progress -->
-            <div class="mt-6">
-              <div class="flex justify-between text-[10px] sm:text-xs text-base-content/40 mb-1.5">
-                <span>Progress</span>
-                <span id="snbt-percent">0%</span>
+        <!-- Schedule Tables -->
+        <div class="grid lg:grid-cols-2 gap-6 fade-in delay-3">
+
+          <!-- SNBP Schedule -->
+          <div class="bg-base-200/40 border border-base-300/50 rounded-2xl overflow-hidden">
+            <div class="px-5 py-4 border-b border-base-300/50">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <h3 class="font-semibold">Jadwal SNBP 2026</h3>
               </div>
-              <div class="h-1 bg-base-300/50 rounded-full overflow-hidden">
-                <div id="snbt-progress" class="h-full bg-blue-500/70 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <div class="divide-y divide-base-300/30">
+              <div class="schedule-item px-5 py-3 flex justify-between items-center gap-4" data-date="2025-12-29">
+                <span class="text-sm">Pengumuman Kuota Sekolah</span>
+                <span class="text-xs text-base-content/50 whitespace-nowrap">29 Des 2025</span>
+              </div>
+              <div class="schedule-item px-5 py-3 flex justify-between items-center gap-4" data-start="2025-12-29" data-end="2026-01-15">
+                <span class="text-sm">Masa Sanggah</span>
+                <span class="text-xs text-base-content/50 whitespace-nowrap">29 Des - 15 Jan</span>
+              </div>
+              <div class="schedule-item px-5 py-3 flex justify-between items-center gap-4" data-start="2026-01-05" data-end="2026-01-26">
+                <span class="text-sm">Registrasi Akun SNPMB Sekolah</span>
+                <span class="text-xs text-base-content/50 whitespace-nowrap">05 - 26 Jan</span>
+              </div>
+              <div class="schedule-item px-5 py-3 flex justify-between items-center gap-4" data-start="2026-01-05" data-end="2026-02-02">
+                <span class="text-sm">Pengisian PDSS oleh Sekolah</span>
+                <span class="text-xs text-base-content/50 whitespace-nowrap">05 Jan - 02 Feb</span>
+              </div>
+              <div class="schedule-item px-5 py-3 flex justify-between items-center gap-4" data-start="2026-01-12" data-end="2026-02-18">
+                <span class="text-sm">Registrasi Akun SNPMB Siswa</span>
+                <span class="text-xs text-base-content/50 whitespace-nowrap">12 Jan - 18 Feb</span>
+              </div>
+              <div class="schedule-item px-5 py-3 flex justify-between items-center gap-4" data-start="2026-02-03" data-end="2026-02-18">
+                <span class="text-sm">Pendaftaran SNBP</span>
+                <span class="text-xs text-base-content/50 whitespace-nowrap">03 - 18 Feb</span>
+              </div>
+              <div class="schedule-item px-5 py-3 flex justify-between items-center gap-4 bg-emerald-500/5" data-date="2026-03-31">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium">Pengumuman Hasil SNBP</span>
+                </div>
+                <span class="text-xs font-medium text-emerald-500 whitespace-nowrap">31 Maret 2026</span>
+              </div>
+              <div class="schedule-item px-5 py-3 flex justify-between items-center gap-4" data-start="2026-02-03" data-end="2026-04-30">
+                <span class="text-sm">Masa Unduh Kartu Peserta SNBP</span>
+                <span class="text-xs text-base-content/50 whitespace-nowrap">03 Feb - 30 Apr</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SNBT Schedule -->
+          <div class="bg-base-200/40 border border-base-300/50 rounded-2xl overflow-hidden">
+            <div class="px-5 py-4 border-b border-base-300/50">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                <h3 class="font-semibold">Jadwal UTBK-SNBT 2026</h3>
+              </div>
+            </div>
+            <div class="divide-y divide-base-300/30">
+              <div class="schedule-item px-5 py-3 flex justify-between items-center gap-4" data-start="2026-01-12" data-end="2026-04-07">
+                <span class="text-sm">Registrasi Akun SNPMB Siswa</span>
+                <span class="text-xs text-base-content/50 whitespace-nowrap">12 Jan - 07 Apr</span>
+              </div>
+              <div class="schedule-item px-5 py-3 flex justify-between items-center gap-4" data-start="2026-03-25" data-end="2026-04-07">
+                <span class="text-sm">Pendaftaran UTBK-SNBT</span>
+                <span class="text-xs text-base-content/50 whitespace-nowrap">25 Mar - 07 Apr</span>
+              </div>
+              <div class="schedule-item px-5 py-3 flex justify-between items-center gap-4" data-start="2026-03-25" data-end="2026-04-08">
+                <span class="text-sm">Pembayaran Biaya UTBK</span>
+                <span class="text-xs text-base-content/50 whitespace-nowrap">25 Mar - 08 Apr</span>
+              </div>
+              <div class="schedule-item px-5 py-3 flex justify-between items-center gap-4 bg-blue-500/5" data-start="2026-04-21" data-end="2026-04-30">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium">Pelaksanaan UTBK</span>
+                </div>
+                <span class="text-xs font-medium text-blue-500 whitespace-nowrap">21 - 30 Apr</span>
+              </div>
+              <div class="schedule-item px-5 py-3 flex justify-between items-center gap-4 bg-blue-500/5" data-date="2026-05-25">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium">Pengumuman Hasil SNBT</span>
+                </div>
+                <span class="text-xs font-medium text-blue-500 whitespace-nowrap">25 Mei 2026</span>
+              </div>
+              <div class="schedule-item px-5 py-3 flex justify-between items-center gap-4" data-start="2026-06-02" data-end="2026-07-31">
+                <span class="text-sm">Masa Unduh Sertifikat UTBK</span>
+                <span class="text-xs text-base-content/50 whitespace-nowrap">02 Jun - 31 Jul</span>
               </div>
             </div>
           </div>
 
         </div>
 
-        <!-- Motivational Text -->
-        <div class="text-center mt-10 sm:mt-12 fade-in delay-3">
-          <p class="text-base-content/40 text-sm italic">
-            "Semoga hasil terbaik menyertaimu"
-          </p>
+        <!-- Upcoming Events -->
+        <div class="mt-8 fade-in delay-4">
+          <div class="bg-base-200/40 border border-base-300/50 rounded-2xl p-5">
+            <h3 class="font-semibold mb-4 flex items-center gap-2">
+              <svg class="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Event Mendatang
+            </h3>
+            <div id="upcomingEvents" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Motivational -->
+        <div class="text-center mt-8 fade-in delay-4">
+          <p class="text-base-content/40 text-sm italic">"Semoga hasil terbaik menyertaimu"</p>
         </div>
 
       </div>
     </main>
 
-    <!-- Footer -->
     <footer class="py-6 text-center">
-      <p class="text-xs text-base-content/30">
-        Waktu berdasarkan jadwal resmi SNPMB
-      </p>
+      <p class="text-xs text-base-content/30">Waktu berdasarkan jadwal resmi SNPMB</p>
     </footer>
 
   </div>
 
-  <!-- JavaScript -->
   <script>
     (() => {
       'use strict';
 
-      // ─── Target Dates (WIB = UTC+7) ───
+      // ─── All Events ───
+      const EVENTS = [
+        { id: 'snbp-result', name: 'Pengumuman SNBP', date: new Date(Date.UTC(2026, 2, 31, 8, 0, 0)), type: 'snbp', highlight: true },
+        { id: 'snbt-result', name: 'Pengumuman SNBT', date: new Date(Date.UTC(2026, 4, 25, 8, 0, 0)), type: 'snbt', highlight: true },
+        { id: 'snbp-reg-end', name: 'Batas Pendaftaran SNBP', date: new Date(Date.UTC(2026, 1, 18, 16, 59, 59)), type: 'snbp' },
+        { id: 'snbt-reg-start', name: 'Pendaftaran UTBK-SNBT Dibuka', date: new Date(Date.UTC(2026, 2, 25, 0, 0, 0)), type: 'snbt' },
+        { id: 'snbt-reg-end', name: 'Batas Pendaftaran UTBK-SNBT', date: new Date(Date.UTC(2026, 3, 7, 16, 59, 59)), type: 'snbt' },
+        { id: 'utbk-start', name: 'Pelaksanaan UTBK Dimulai', date: new Date(Date.UTC(2026, 3, 21, 0, 0, 0)), type: 'snbt' },
+        { id: 'utbk-end', name: 'Pelaksanaan UTBK Selesai', date: new Date(Date.UTC(2026, 3, 30, 16, 59, 59)), type: 'snbt' },
+      ];
+
+      // ─── Main Countdown Targets ───
       const TARGETS = {
-        snbp: {
-          date: new Date(Date.UTC(2026, 2, 31, 8, 0, 0)), // 31 March 2026 15:00 WIB
-          startDate: new Date(Date.UTC(2026, 0, 1, 0, 0, 0)),
-        },
-        snbt: {
-          date: new Date(Date.UTC(2026, 4, 25, 8, 0, 0)), // 25 May 2026 15:00 WIB
-          startDate: new Date(Date.UTC(2026, 0, 1, 0, 0, 0)),
-        },
+        snbp: { date: new Date(Date.UTC(2026, 2, 31, 8, 0, 0)) },
+        snbt: { date: new Date(Date.UTC(2026, 4, 25, 8, 0, 0)) },
       };
 
-      // ─── DOM Elements ───
+      // ─── DOM ───
       const getEls = (id) => ({
         days: document.getElementById(`${id}-days`),
         hours: document.getElementById(`${id}-hours`),
@@ -337,18 +394,15 @@
         seconds: document.getElementById(`${id}-seconds`),
         countdown: document.getElementById(`${id}-countdown`),
         finished: document.getElementById(`${id}-finished`),
-        progress: document.getElementById(`${id}-progress`),
-        percent: document.getElementById(`${id}-percent`),
       });
 
       const els = { snbp: getEls('snbp'), snbt: getEls('snbt') };
       const prev = { snbp: {}, snbt: {} };
 
-      // ─── Countdown Calculation ───
+      // ─── Helpers ───
       function calcTime(target) {
         const diff = target - new Date();
         if (diff <= 0) return { d: 0, h: 0, m: 0, s: 0, done: true, diff: 0 };
-        
         return {
           d: Math.floor(diff / 86400000),
           h: Math.floor((diff / 3600000) % 24),
@@ -362,22 +416,23 @@
       function pad(n) { return String(n).padStart(2, '0'); }
 
       function animate(el) {
+        if (!el) return;
         el.classList.remove('tick');
         void el.offsetWidth;
         el.classList.add('tick');
       }
 
-      // ─── Update Display ───
+      // ─── Update Main Countdown ───
       function update(key) {
         const t = TARGETS[key];
         const e = els[key];
+        if (!e.days) return true;
+
         const time = calcTime(t.date);
 
         if (time.done) {
           e.countdown.classList.add('hidden');
           e.finished.classList.remove('hidden');
-          e.progress.style.width = '100%';
-          e.percent.textContent = '100%';
           return true;
         }
 
@@ -391,14 +446,40 @@
           }
         });
 
-        // Progress
-        const total = t.date - t.startDate;
-        const elapsed = total - time.diff;
-        const pct = Math.min(100, Math.max(0, (elapsed / total) * 100));
-        e.progress.style.width = `${pct}%`;
-        e.percent.textContent = `${pct.toFixed(1)}%`;
-
         return false;
+      }
+
+      // ─── Upcoming Events ───
+      function renderUpcoming() {
+        const container = document.getElementById('upcomingEvents');
+        const now = new Date();
+        
+        const upcoming = EVENTS
+          .filter(e => e.date > now)
+          .sort((a, b) => a.date - b.date)
+          .slice(0, 6);
+
+        if (upcoming.length === 0) {
+          container.innerHTML = '<p class="text-sm text-base-content/40 col-span-full">Semua event sudah selesai</p>';
+          return;
+        }
+
+        container.innerHTML = upcoming.map(e => {
+          const time = calcTime(e.date);
+          const color = e.type === 'snbp' ? 'emerald' : 'blue';
+          const dayStr = time.d > 0 ? `${time.d} hari` : `${time.h} jam`;
+          
+          return `
+            <div class="bg-base-100/50 border border-base-300/30 rounded-xl p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-${color}-500"></span>
+                <span class="text-[10px] uppercase tracking-wider text-base-content/40">${e.type.toUpperCase()}</span>
+              </div>
+              <p class="text-sm font-medium mb-1">${e.name}</p>
+              <p class="text-xs text-base-content/50">${dayStr} lagi</p>
+            </div>
+          `;
+        }).join('');
       }
 
       // ─── Timezone ───
@@ -411,7 +492,7 @@
         document.getElementById('timezoneInfo').textContent = `${tz} (UTC${sign}${h}:${m})`;
       }
 
-      // ─── Theme Toggle ───
+      // ─── Theme ───
       function initTheme() {
         const btn = document.getElementById('themeToggle');
         const sun = document.getElementById('iconSun');
@@ -426,10 +507,43 @@
         };
 
         setTheme(saved || 'dark');
-
         btn.addEventListener('click', () => {
           const current = document.documentElement.getAttribute('data-theme');
           setTheme(current === 'dark' ? 'light' : 'dark');
+        });
+      }
+
+      // ─── Schedule Status ───
+      function updateScheduleStatus() {
+        const now = new Date();
+        document.querySelectorAll('.schedule-item').forEach(item => {
+          const singleDate = item.dataset.date;
+          const startDate = item.dataset.start;
+          const endDate = item.dataset.end;
+
+          let status = '';
+          if (singleDate) {
+            const d = new Date(singleDate + 'T00:00:00');
+            if (now >= d) status = 'done';
+          } else if (startDate && endDate) {
+            const s = new Date(startDate + 'T00:00:00');
+            const e = new Date(endDate + 'T23:59:59');
+            if (now > e) status = 'done';
+            else if (now >= s && now <= e) status = 'active';
+          }
+
+          // Remove old badges
+          const oldBadge = item.querySelector('.status-badge');
+          if (oldBadge) oldBadge.remove();
+
+          if (status === 'done') {
+            item.classList.add('opacity-50');
+          } else if (status === 'active') {
+            const badge = document.createElement('span');
+            badge.className = 'status-badge ml-2 px-2 py-0.5 text-[10px] font-medium rounded-full bg-amber-500/20 text-amber-500';
+            badge.textContent = 'Berlangsung';
+            item.querySelector('span:first-child').appendChild(badge);
+          }
         });
       }
 
@@ -437,7 +551,7 @@
       function hideLoader() {
         setTimeout(() => {
           document.getElementById('loader').classList.add('hidden');
-        }, 600);
+        }, 500);
       }
 
       // ─── Main Loop ───
@@ -453,7 +567,12 @@
       initTheme();
       showTimezone();
       tick();
-      const interval = setInterval(tick, 1000);
+      renderUpcoming();
+      updateScheduleStatus();
+      const interval = setInterval(() => {
+        tick();
+        renderUpcoming();
+      }, 1000);
       hideLoader();
     })();
   </script>
